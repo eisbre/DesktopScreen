@@ -8,6 +8,7 @@
 #include "../../HW/Inc/screen/ds_screen.h"
 #include "../../HW/Inc/net/ds_http_request.h"
 #include "../../HW/Inc/driver/ds_pwm.h"
+#include "../../HW/Inc/driver/ds_nvs.h"
 
 static const char *TAG = "DS_UI_PAGE_MANAGE";
 
@@ -73,7 +74,7 @@ static void ui_page_evt_task(void *arg)
 			g_page_manage.now_show_page = PAGE_TYPE_SETTING;
 			ds_screen_setting();
 		}
-		//TP点击事件
+		//TP事件
 		if(g_page_manage.now_show_page == PAGE_TYPE_MEMU){
 			if(evt.key == TP_ACTION_SHORT){
 				if(evt.action == PAGE_TYPE_TIME){
@@ -81,7 +82,7 @@ static void ui_page_evt_task(void *arg)
 					ds_ui_timepage_show_time_init();
 				}else if(evt.action == PAGE_TYPE_WORD){
 					g_page_manage.now_show_page = PAGE_TYPE_WORD;
-					ds_ui_wordpage_show(0);
+					ds_ui_wordpage_show(1);
 				}else if(evt.action == PAGE_TYPE_WEATHER){
 					g_page_manage.now_show_page = PAGE_TYPE_WEATHER;
 					ds_ui_weather_show(0);
@@ -96,24 +97,48 @@ static void ui_page_evt_task(void *arg)
 			else if(evt.key == TP_ACTION_MOVE_DOWN){
 				set_update_httpdata_request(true);
 			}
+			else if (evt.key == TP_ACTION_MOVE_UP){
+				ds_nvs_clean_wifi_info();
+			}
+			else if (evt.key == TP_ACTION_MOVE_RIGHT){
+				g_page_manage.now_show_page = PAGE_TYPE_PIC;
+				ds_screen_picture();
+			}
 		}else if(g_page_manage.now_show_page != PAGE_TYPE_MEMU){
 			if(g_page_manage.now_show_page == PAGE_TYPE_WORD){
 				if(evt.key == TP_ACTION_MOVE_UP){
 					g_page_manage.now_show_page = PAGE_TYPE_WORD;
 					ds_ui_wordpage_show(1);
 				}
-				// else if(evt.key == TP_ACTION_MOVE_DOWN){
-				// 	g_page_manage.now_show_page = PAGE_TYPE_WORD;
-				// 	ds_ui_wordpage_show(0);
-				// }
+				if(evt.key == TP_ACTION_MOVE_RIGHT){
+					g_page_manage.now_show_page = PAGE_TYPE_MEMU;
+					ds_screen_display_main();
+				}
 			}else if(g_page_manage.now_show_page == PAGE_TYPE_TOMATO){
 				if(evt.key == TP_ACTION_SHORT){
 					ds_ui_tomatopage_start_toggle();
 				}
+				if(evt.key == TP_ACTION_MOVE_RIGHT){
+					g_page_manage.now_show_page = PAGE_TYPE_MEMU;
+					ds_screen_display_main();
+				}
+			}else if(g_page_manage.now_show_page == PAGE_TYPE_PIC){
+				if(evt.key == TP_ACTION_MOVE_LEFT){
+					g_page_manage.now_show_page = PAGE_TYPE_MEMU;
+					ds_screen_display_main();
+				}
 			}
-			if(evt.key == TP_ACTION_MOVE_RIGHT){
-				g_page_manage.now_show_page = PAGE_TYPE_MEMU;
-				ds_screen_display_main();
+			else if(g_page_manage.now_show_page == PAGE_TYPE_TIME){
+				if(evt.key == TP_ACTION_MOVE_RIGHT){
+					g_page_manage.now_show_page = PAGE_TYPE_MEMU;
+					ds_screen_display_main();
+				}
+			}
+			else if(g_page_manage.now_show_page == PAGE_TYPE_WEATHER){
+				if(evt.key == TP_ACTION_MOVE_RIGHT){
+					g_page_manage.now_show_page = PAGE_TYPE_MEMU;
+					ds_screen_display_main();
+				}
 			}
 		} 
     }

@@ -8,4 +8,6 @@ extern const unsigned char gImage_main_page[];
 
 extern const unsigned char gImage_setting_page[];
 
+extern const unsigned char gImage_picture_page[];
+
 #endif

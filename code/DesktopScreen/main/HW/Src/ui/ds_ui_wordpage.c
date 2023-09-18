@@ -1,5 +1,3 @@
-
-
 #include <string.h>
 #include <stdio.h>
 
@@ -49,6 +47,10 @@ WORD_ARRAY_T word_array;
 
 void ds_ui_wordpage_show(uint8_t type){
     g_word_page.updateing = 1;
+    // if (g_word_page.num < 0)
+    //     g_word_page.num = 3;
+    // if (g_word_page.num > 3)
+    //     g_word_page.num = 0;
 
     uint8_t *m_custom_image;
     printf("IMAGE_SIZE %d\n",IMAGE_SIZE);

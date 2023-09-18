@@ -33,5 +33,6 @@ void ds_screen_setting(){
 	
 }
 
-
-
+void ds_screen_picture(){
+	ds_screen_full_display_bydata(ds_screen_full_display_data, gImage_picture_page);
+}

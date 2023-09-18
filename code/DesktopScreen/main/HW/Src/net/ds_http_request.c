@@ -49,6 +49,7 @@ typedef struct
 }weather_info;
 
 weather_info weathe;
+
 /*
 {
     "results":[
